@@ -1,0 +1,14 @@
+body{
+    background-color: #098b8d;
+}
+.text{
+    color: white;
+    margin: auto 0 auto 0;
+    text-align: center;
+}
+
+#myCanvas{
+    border: 1px solid black;
+    display: block;
+    margin: 0 auto 0 auto;   
+}
