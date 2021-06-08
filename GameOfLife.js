@@ -27,8 +27,14 @@ class GameOfLife{
         this.activeArray = [];
         //2d array that holds previous life cycle
         this.inactiveArray = [];
+        this.prevX = 0;
+        this.prevY = 0;
+        this.currX = 0;
+        this.currY = 0;
         
     
+
+
         this.gridInit = () => {
             
             ctx.strokeStyle = '#aaaaaa';
@@ -128,6 +134,52 @@ class GameOfLife{
             this.activeArray = this.inactiveArray.map(a => ({...a}));
 
         };
+        
+        this.findxy = (res, e) => {
+            if(res === 'down') {
+                this.prevX = this.currX;
+                this.prevY = this.currY;
+                this.currX = Math.floor((e.clientX - canvas.offsetLeft) / this.cellSize);
+                this.currY = Math.floor((e.clientY - canvas.offsetTop) / this.cellSize);
+                this.flip(this.currX, this.currY);
+            }
+        }
+
+        this.drawInit = () => {
+            canvas.addEventListener("mousemove", (e) => {
+                this.findxy('move', e)
+            }, false);
+            canvas.addEventListener("mousedown", (e) => {
+                this.findxy('down', e)
+            }, false);
+            canvas.addEventListener("mouseup", (e) => {
+                this.findxy('up', e)
+            }, false);
+            canvas.addEventListener("mouseout", (e) => {
+                this.findxy('out', e)
+            }, false);
+
+        }
+        
+        this.flip = (x, y) => {
+            this.activeArray[y][x] = 1;
+        }
+
+
+        this.draw = () => {
+            ctx.beginPath();
+            ctx.moveTo(prevX, prevY);
+            ctx.lineTo(currX, currY);
+            ctx.strokeStyle = x;
+            ctx.lineWidth = y;
+            ctx.stroke();
+            ctx.closePath();
+        }
+        
+        
+
+        this.pause = () => {
+        }
 
         this.gameSetUp = () => {
             this.arrayInit();
@@ -138,6 +190,7 @@ class GameOfLife{
             this.fillArray();
             this.gridInit();
         };
+
 
     }
 };
